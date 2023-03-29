@@ -35,3 +35,10 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
 }
+
+function withoutContextMenu() {
+    const noRightClick = document.querySelectorAll('.cell')
+    for (var i = 0; i < gLevel.SIZE * gLevel.SIZE; i++) {
+        noRightClick[i].addEventListener("contextmenu", e => e.preventDefault())
+    }
+}
