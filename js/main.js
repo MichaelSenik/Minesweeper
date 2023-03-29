@@ -45,9 +45,9 @@ function buildBoard() {
         }
         board.push(row)
     }
-    board[2][1].isMine = true
-    board[0][2].isMine = true
-    board[0][3].isMine = true
+    // board[2][1].isMine = true
+    // board[0][2].isMine = true
+    // board[0][3].isMine = true
     return board
 }
 
@@ -82,7 +82,7 @@ function onCellClicked(i, j) {
     gBoard[i][j].isShown = true
     gGame.isShown++
     cliks++
-    // if (cliks === 1) createMines()
+    if (cliks === 1) createMines()
     countNegs(i, j)
     if (gBoard[i][j].isMine) {
         value = MINE

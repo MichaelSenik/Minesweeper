@@ -10,6 +10,7 @@ body {
 .game {
     display: inline-block;
     border: 5px solid gray;
+    /* height: 260px; */
 }
 
 table {
@@ -57,7 +58,7 @@ div button {
 
 .upperMiddle {
     text-align: center;
-    width: calc(32.5%);
+    width: 32.5%;
     height: 100%;
     min-width: 75px;
     display: inline-block;
