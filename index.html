@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Sprint!</title>
+</head>
+<body onload="onInit()">
+    <h2>Score: <span>0</span></h2>
+<div class="game">
+    <div>
+        <div class="q">123</div><div class="upperMiddle">
+            <p></p>
+            <div class="lives"></div>
+            <p></p>
+        </div><div class="q">123</div>
+    </div>
+    <div class="middle">
+        <button class="restart-btn" onclick="onInit()"></button>
+    </div>
+    <div class="board-container"></div>
+</div>
+
+    <div class="modal">
+        <h3 class="msg"></h3>
+    </div>
+    <!-- <hr>
+    <footer>Michael Senik</footer> -->
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

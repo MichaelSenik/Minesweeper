@@ -1,0 +1,81 @@
+body {
+    text-align: center;
+}
+
+/* .board-container {
+    display: inline-block;
+    border: 5px solid gray;
+} */
+
+.game {
+    display: inline-block;
+    border: 5px solid gray;
+}
+
+table {
+    border-top: 5px solid gray;
+}
+
+.cell {
+    width: 40px;
+    height: 40px;
+    border: 1px solid;
+    text-align: center;
+    background-color: gray;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.mine {
+    background-color: red;
+}
+
+.shown {
+    background-color: lightgray;
+}
+
+div button {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.lives {
+    /* padding: 5px; */
+    /* margin: 5px; */
+    width: 100%;
+    display: inline-block;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background-color: black;
+    color: lime;
+    border-top: 3px dashed;
+    border-bottom: 3px dashed;
+}
+
+.middle {
+    border-top: 3px solid grey;
+}
+
+.upperMiddle {
+    text-align: center;
+    width: calc(32.5%);
+    height: 100%;
+    min-width: 75px;
+    display: inline-block;
+    border-left: 3px solid gray;
+    border-right: 3px solid gray;
+    background-color: black;
+}
+
+p {
+    margin: 0px;
+    height: 5px;
+}
+
+.q {
+    text-align: center;
+    width: calc(32.5% - 8px);
+    height: 100%;
+    /* border: 3px solid; */
+    display: inline-block;
+    background-color: blue;
+}
