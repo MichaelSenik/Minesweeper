@@ -74,7 +74,7 @@ p {
 
 .q {
     text-align: center;
-    width: calc(32.5% - 8px);
+    width: calc(32.5% - 12px);
     height: 100%;
     /* border: 3px solid; */
     display: inline-block;
