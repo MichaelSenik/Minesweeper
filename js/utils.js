@@ -13,6 +13,7 @@ function countNegs(i, j) {
         }
     }
     gBoard[cellI][cellJ].minesAroundCount = negsCount
+    console.log('negsCount :>> ', negsCount);
 }
 
 function findRandomEmptyPos() {

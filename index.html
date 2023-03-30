@@ -16,11 +16,17 @@
         <button id="medium" onclick="onLevels(this)">Medium</button>
         <button id="expert" onclick="onLevels(this)">Expert</button>
     </div>
+    <div class="hints">
+        <button id="1" onclick="onHints(this)">💡</button>
+        <button id="2" onclick="onHints(this)">💡</button>
+        <button id="3" onclick="onHints(this)">💡</button>
+        <!-- <button style="background-color: yellow;" onclick="onHints(this)">💡</button> -->
+    </div>
     <div class="game">
         <div class="upper">
-            <p></p>
+            <hr>
             <div class="lives"></div>
-            <p></p>
+            <hr>
         </div>
         <hr>
         <table class="middle">
@@ -29,7 +35,7 @@
                     <div class="clicks"></div>
                 </td>
                 <td>
-                    <button class="restart-btn" onclick="onRestart()"></button>
+                    <button class="restart-btn" onclick="onRestart(this)"></button>
                 </td>
                 <td>
                     <div class="timer"></div>
@@ -39,8 +45,11 @@
         <hr>
         <div class="board-container"></div>
     </div>
-    <!-- <hr>
-    <footer>Michael Senik</footer> -->
+    <button class="safeClick" onclick="safeClick(this)"><span></span> Safe-Clicks Left</button>
+    <div id="result"></div>
+    <footer>
+       <p>Michael Senik</p>
+    </footer>
     <script src="js/utils.js"></script>
     <script src="js/main.js"></script>
 </body>
