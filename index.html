@@ -12,9 +12,9 @@
 <body onload="onInit()">
     <h1>Mine Sweeper!</h1>
     <div class="levels">
-        <button class="begginer" onclick="onLevels(this)">Beginner</button>
-        <button class="medium" onclick="onLevels(this)">Medium</button>
-        <button class="expert" onclick="onLevels(this)">Expert</button>
+        <button id="beginner" onclick="onLevels(this)">Beginner</button>
+        <button id="medium" onclick="onLevels(this)">Medium</button>
+        <button id="expert" onclick="onLevels(this)">Expert</button>
     </div>
     <div class="game">
         <div class="upper">
@@ -29,7 +29,7 @@
                     <div class="clicks"></div>
                 </td>
                 <td>
-                    <button class="restart-btn" onclick="onInit()"></button>
+                    <button class="restart-btn" onclick="onRestart()"></button>
                 </td>
                 <td>
                     <div class="timer"></div>

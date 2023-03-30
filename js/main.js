@@ -14,11 +14,8 @@ var elClicks
 var gInterval
 var previousBtn
 
-function onInit() {
-    gLevel = {
-        SIZE: 7,
-        MINES: 3
-    }
+function onInit(level = {SIZE: 4, MINES: 2}) {
+    gLevel = level
     gGame = {
         isOn: true,
         shownCount: 0,
@@ -28,7 +25,11 @@ function onInit() {
     clicks = 0
     lives = 3
     flags = 0
-    previousBtn = document.querySelector('.levels button')
+    if (!previousBtn) {
+        previousBtn = document.querySelector('.levels button')
+        previousBtn.style.backgroundColor = 'red'
+        previousBtn.style.fontWeight = '900'
+    }
     smiley = document.querySelector('.restart-btn')
     smiley.innerHTML = '<img src="img/pngwing.com.png"></img>'
     elClicks = document.querySelector('.clicks')
@@ -83,8 +84,8 @@ function renderBoard(mat, selector) {
     elContainer.innerHTML = strHTML
     elLives = document.querySelector('.lives')
     elLives.innerHTML = `${lives} LIVES LEFT `
-    for(var i = 0; i < lives; i++) {
-        elLives.innerHTML +='♥'
+    for (var i = 0; i < lives; i++) {
+        elLives.innerHTML += '♥'
     }
 }
 
@@ -105,8 +106,8 @@ function onCellClicked(i, j, elCell) {
         addClass = 'mine'
         lives--
         elLives.innerHTML = `${lives} LIVES LEFT `
-        for(var x = 0; x < lives; x++) {
-            elLives.innerHTML +='♥'
+        for (var x = 0; x < lives; x++) {
+            elLives.innerHTML += '♥'
         }
         if (lives === 0) gameOver(false)
     } else {
@@ -205,11 +206,33 @@ function timer() {
 }
 
 function onLevels(elBtn) {
-    if (elBtn != previousBtn) {
-        previousBtn.style.backgroundColor = 'whitesmoke'
-        previousBtn.style.fontWeight = '100'
-    }
+    if (elBtn === previousBtn) return
+    previousBtn.style.backgroundColor = 'whitesmoke'
+    previousBtn.style.fontWeight = '100'
     elBtn.style.backgroundColor = 'red'
     elBtn.style.fontWeight = '900'
     previousBtn = elBtn
+    if (elBtn.id === 'beginner') {
+        gLevel = {
+            SIZE: 4,
+            MINES: 2
+        }
+    }
+    else if (elBtn.id === 'medium') {
+        gLevel = {
+            SIZE: 8,
+            MINES: 14
+        }
+    }
+    else {
+        gLevel = {
+            SIZE: 12,
+            MINES: 32
+        }
+    }
+    onInit(gLevel)
+}
+
+function onRestart() {
+    onInit(gLevel)
 }
