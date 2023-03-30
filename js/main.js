@@ -12,6 +12,7 @@ var smiley
 var flags
 var elClicks
 var gInterval
+var previousBtn
 
 function onInit() {
     gLevel = {
@@ -27,6 +28,7 @@ function onInit() {
     clicks = 0
     lives = 3
     flags = 0
+    previousBtn = document.querySelector('.levels button')
     smiley = document.querySelector('.restart-btn')
     smiley.innerHTML = '<img src="img/pngwing.com.png"></img>'
     elClicks = document.querySelector('.clicks')
@@ -200,4 +202,14 @@ function timer() {
         var elapsedTime = Date.now() - startTime;
         elTimer.innerText = parseInt((elapsedTime / 1000));
     }, 100);
+}
+
+function onLevels(elBtn) {
+    if (elBtn != previousBtn) {
+        previousBtn.style.backgroundColor = 'whitesmoke'
+        previousBtn.style.fontWeight = '100'
+    }
+    elBtn.style.backgroundColor = 'red'
+    elBtn.style.fontWeight = '900'
+    previousBtn = elBtn
 }
