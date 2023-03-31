@@ -21,6 +21,14 @@ var currTime
 var results
 var safeClicks
 var gTimeOut
+var darkLight
+var megaHintArea
+var megaHintCount
+var isMegaHintFinished
+var isMegaHintOn
+var isManualOn
+var minesPlaced
+var elManualBtn
 
 function onInit(level = {
     SIZE: 4,
@@ -40,6 +48,12 @@ function onInit(level = {
     hintsUsed = []
     isHintFinished = true
     safeClicks = 3
+    megaHintArea = []
+    megaHintCount = 0
+    isMegaHintFinished = true
+    isMegaHintOn = false
+    isManualOn = false
+    minesPlaced = 0
     if (!previousBtn) {
         previousBtn = document.querySelector('.levels button')
         previousBtn.style.backgroundColor = 'red'
@@ -62,6 +76,11 @@ function onInit(level = {
     gBoard = buildBoard()
     renderBoard(gBoard, '.board-container')
     withoutContextMenu()
+    toggleDarkLight()
+    const elMegaHintBtn = document.querySelector('.megaHint')
+    elMegaHintBtn.innerText = '1 Mega-Hint Left'
+    elManualBtn = document.querySelector('.manual')
+    elManualBtn.innerText = 'Manual Mode'
 }
 
 function buildBoard() {
@@ -109,23 +128,30 @@ function renderBoard(mat, selector) {
 
 function onCellClicked(i, j) {
     if (!gGame.isOn || gBoard[i][j].isMarked || gBoard[i][j].isShown) return
-    if (isHintOn && clicks > 0) {
+    if (isManualOn && !gBoard[i][j].isMine) {
+        minePlacing()
+        gBoard[i][j].isMine = true
+    } 
+    else if (isHintOn && clicks > 0 && isMegaHintFinished) {
         isHintFinished = false
         toggleNegs(i, j)
         isHintOn = false
-        hintCell = {
-            i,
-            j
-        }
+        hintCell = {i,j}
         setTimeout(toggleNegs, 1000)
-    } else {
+    } 
+    else if (isMegaHintOn && clicks > 0 && isHintFinished) {
+        isMegaHintFinished = false
+        findMegaHintArea(i, j)
+    }
+    else {
+        if (!isMegaHintFinished || !isHintFinished || isManualOn) return
         var value
         var addClass
         clicks++
         gBoard[i][j].isShown = true
         gGame.shownCount++
         if (clicks === 1) {
-            createMines()
+            if (!minesPlaced) createMines()
             timer()
         }
         countNegs(i, j)
@@ -293,20 +319,17 @@ function toggleNegs(i, j) {
     for (var i = cellI - 1; i <= cellI + 1; i++) {
         if (i < 0 || i >= gLevel.SIZE) continue
         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
-            // if (i === cellI && j === cellJ) continue
             if (j < 0 || j >= gLevel.SIZE) continue
             if (gBoard[i][j].isShown) continue
             var value
             var addClass
             countNegs(i, j)
             if (gBoard[i][j].isMine) {
-                // console.log('gBoard[i][j] :>> ',i, j, gBoard[i][j]);
                 value = MINE
                 addClass = 'mine'
             } else {
                 addClass = 'shown'
                 value = (gBoard[i][j].minesAroundCount > 0) ? gBoard[i][j].minesAroundCount : ''
-                // console.log('gBoard[i][j] :>> ',i,j, gBoard[i][j]);
             }
             if (gBoard[i][j].isMarked) {
                 flags--
@@ -340,4 +363,85 @@ function safeClick(elBtn) {
         gBoard[emptyPos.i][emptyPos.j].isShown = false
         renderCell(emptyPos.i, emptyPos.j, '', 'shown')
     }, 2000)
+}
+
+function toggleDarkLight(elBtn) {
+    const elBody = document.body;
+    var currClass
+    if (!elBtn) {
+        elBtn = document.querySelector('.dark-light')
+        if (!darkLight || darkLight === 'light') currClass = 'dark-mode'
+        else currClass = 'light-mode'
+    } else currClass = elBody.className;
+    if (currClass === "dark-mode") {
+        elBody.className = "light-mode"
+        elBtn.innerText = '🌞'
+        darkLight = 'light'
+    } else {
+        elBody.className = "dark-mode"
+        elBtn.innerText = '🌙'
+        darkLight = 'dark'
+    }
+}
+
+function findMegaHintArea(i, j) {
+    const cell = {i,j}
+    megaHintArea.push(cell)
+    if (megaHintCount === 1) megaHint(megaHintArea[0], megaHintArea[1])
+    if (megaHintCount === 1) {
+        isMegaHintOn = false
+        setTimeout(megaHint, 2000)
+    }
+    megaHintCount++
+}
+
+function megaHint(location1, location2) {
+    if (!location1 || !location2) {
+        location1 = megaHintArea[0]
+        location2 = megaHintArea[1]
+    }
+    for (var i = location1.i; i <= location2.i; i++) {
+        if (i < 0 || i >= gLevel.SIZE) continue
+        for (var j = location1.j; j <= location2.j; j++) {
+            if (j < 0 || j >= gLevel.SIZE) continue
+            if (gBoard[i][j].isShown) continue
+            var value
+            var addClass
+            countNegs(i, j)
+            if (gBoard[i][j].isMine) {
+                value = MINE
+                addClass = 'mine'
+            } else {
+                addClass = 'shown'
+                value = (gBoard[i][j].minesAroundCount > 0) ? gBoard[i][j].minesAroundCount : ''
+            }
+            if (gBoard[i][j].isMarked) {
+                flags--
+            }
+            if (!isMegaHintOn) {
+                renderCell(i, j, '', addClass)
+                isMegaHintFinished = true
+            } else renderCell(i, j, value, addClass)
+        }
+    }
+}
+
+function onMegaHint(elBtn) {
+    isMegaHintOn = true
+    elBtn.innerText = '0 Mega-Hints left'
+}
+
+function onManual(elBtn) {
+    onInit(gLevel)
+    isManualOn = true
+    elBtn.innerText = `${gLevel.MINES} Left To Place`
+    minePlacing()
+}
+
+function minePlacing() {
+    elManualBtn.innerText = `${gLevel.MINES - minesPlaced} Left To Place`
+    if (minesPlaced === gLevel.MINES) {
+        isManualOn = false
+    }
+    else minesPlaced++
 }

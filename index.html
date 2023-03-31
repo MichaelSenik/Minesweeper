@@ -8,19 +8,19 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Sprint!</title>
 </head>
-
 <body onload="onInit()">
     <h1>Mine Sweeper!</h1>
+    <button class="dark-light" onclick="toggleDarkLight(this)">🌞</button>
     <div class="levels">
         <button id="beginner" onclick="onLevels(this)">Beginner</button>
         <button id="medium" onclick="onLevels(this)">Medium</button>
         <button id="expert" onclick="onLevels(this)">Expert</button>
     </div>
+    <button class="manual" onclick="onManual(this)">Manual Mode</button>
     <div class="hints">
         <button id="1" onclick="onHints(this)">💡</button>
         <button id="2" onclick="onHints(this)">💡</button>
         <button id="3" onclick="onHints(this)">💡</button>
-        <!-- <button style="background-color: yellow;" onclick="onHints(this)">💡</button> -->
     </div>
     <div class="game">
         <div class="upper">
@@ -46,9 +46,10 @@
         <div class="board-container"></div>
     </div>
     <button class="safeClick" onclick="safeClick(this)"><span></span> Safe-Clicks Left</button>
+    <button class="megaHint" onclick="onMegaHint(this)"></button>
     <div id="result"></div>
     <footer>
-       <p>Michael Senik</p>
+        <p>Michael Senik</p>
     </footer>
     <script src="js/utils.js"></script>
     <script src="js/main.js"></script>

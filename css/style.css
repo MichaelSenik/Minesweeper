@@ -35,7 +35,8 @@ body {
     background-color: lightgray;
 }
 
-.shown, .mine {
+.shown,
+.mine {
     width: 35px;
     height: 35px;
     border: 1px solid gray;
@@ -89,7 +90,8 @@ div img {
     background-color: lightgray;
 }
 
-.clicks, .timer {
+.clicks,
+.timer {
     /* text-align: center; */
     /* margin-top:  */
     /* width: calc(32.5% - 4px); */
@@ -124,7 +126,7 @@ hr {
 
 .levels button {
     margin: 10px;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
     min-width: 82px;
     min-height: 25px;
     font-weight: 100;
@@ -160,7 +162,7 @@ footer p {
     padding: 5px;
 }
 
-.safeClick {
+.safeClick, .megaHint {
     display: block;
     margin: 10px auto;
     padding: 10px;
@@ -175,7 +177,43 @@ footer p {
     cursor: pointer;
 }
 
-.safeClick:hover {
+.safeClick:hover, .megaHint:hover {
     background-color: rgb(0, 123, 255);
 }
 
+body.dark-mode {
+    background-color: #242424;
+}
+
+body.dark-mode h1 {
+    color: whitesmoke;
+}
+
+body.light-mode {
+    background-color: beige;
+}
+
+body.dark-mode #result {
+    color: burlywood;
+}
+
+body.dark-mode .dark-light {
+    background-color: bisque;
+}
+
+body.light-mode .dark-light {
+    background-color: #242424;
+}
+
+.manual {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-family:Georgia, 'Times New Roman', Times, serif ;
+    font-size: medium;
+    background-color: orange;
+}
+
+h1 {
+    font-family:cursive;
+    text-decoration:underline;
+}
