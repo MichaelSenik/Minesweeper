@@ -18,7 +18,11 @@ var hintCell
 var hintsUsed
 var isHintFinished
 var currTime
-var results
+var bestTime1
+var bestTime2
+var bestTime3
+var currBest
+var lvl
 var safeClicks
 var gTimeOut
 var darkLight
@@ -59,10 +63,11 @@ function onInit(level = {
         previousBtn.style.backgroundColor = 'red'
         previousBtn.style.fontWeight = '900'
     }
-    if (localStorage.getItem("BestTime")) {
-        results = localStorage.getItem("BestTime")
-        document.getElementById("result").innerHTML = `Record Time is: ${results}s`
-    }
+    // if (localStorage.getItem("BestTime")) {
+    bestScore()
+    // bestTime = localStorage.getItem("BestTime")
+    // document.getElementById("result").innerHTML = `Record Time is: ${bestTime}s`
+    // }
     smiley = document.querySelector('.restart-btn')
     smiley.innerHTML = '<img src="img/pngwing.com.png"></img>'
     elClicks = document.querySelector('.clicks')
@@ -131,19 +136,19 @@ function onCellClicked(i, j) {
     if (isManualOn && !gBoard[i][j].isMine) {
         minePlacing()
         gBoard[i][j].isMine = true
-    } 
-    else if (isHintOn && clicks > 0 && isMegaHintFinished) {
+    } else if (isHintOn && clicks > 0 && isMegaHintFinished) {
         isHintFinished = false
         toggleNegs(i, j)
         isHintOn = false
-        hintCell = {i,j}
+        hintCell = {
+            i,
+            j
+        }
         setTimeout(toggleNegs, 1000)
-    } 
-    else if (isMegaHintOn && clicks > 0 && isHintFinished) {
+    } else if (isMegaHintOn && clicks > 0 && isHintFinished) {
         isMegaHintFinished = false
         findMegaHintArea(i, j)
-    }
-    else {
+    } else {
         if (!isMegaHintFinished || !isHintFinished || isManualOn) return
         var value
         var addClass
@@ -195,8 +200,8 @@ function gameOver(isVictory) {
     gGame.isOn = false
     if (isVictory) {
         smiley.innerHTML = '<img src="img/pngwing.com (1).png"></img>'
-        if (currTime < parseFloat(results) || !results) {
-            localStorage.setItem("BestTime", currTime);
+        if (!currBest || currTime < parseFloat(currBest)) {
+            localStorage.setItem(`.BestTime${lvl}`, currTime);
         }
     } else {
         smiley.innerHTML = '<img src="img/kindpng_57353.png"></img>'
@@ -349,6 +354,29 @@ function updateHints() {
     }
 }
 
+function bestScore() {
+    switch (gLevel.SIZE) {
+        case 4:
+            bestTime1 = localStorage.getItem('BestTime1')
+            currBest = bestTime1
+            lvl = 1
+            break
+        case 8:
+            bestTime2 = localStorage.getItem('.BestTime2')
+            currBest = bestTime2
+            lvl = 2
+            break
+        case 12:
+            bestTime3 = localStorage.getItem('.BestTime3')
+            currBest = bestTime3
+            lvl = 3
+    }
+    document.querySelector('#result').innerHTML = `Record Time is: ${currBest}s`
+    console.log('currBest :>> ', currBest);
+    console.log(`BestTime${lvl}`);
+
+}
+
 function safeClick(elBtn) {
     if (clicks === 0 || safeClicks === 0) return
     const emptyPos = findRandomEmptyPos()
@@ -385,7 +413,10 @@ function toggleDarkLight(elBtn) {
 }
 
 function findMegaHintArea(i, j) {
-    const cell = {i,j}
+    const cell = {
+        i,
+        j
+    }
     megaHintArea.push(cell)
     if (megaHintCount === 1) megaHint(megaHintArea[0], megaHintArea[1])
     if (megaHintCount === 1) {
@@ -442,6 +473,5 @@ function minePlacing() {
     elManualBtn.innerText = `${gLevel.MINES - minesPlaced} Left To Place`
     if (minesPlaced === gLevel.MINES) {
         isManualOn = false
-    }
-    else minesPlaced++
+    } else minesPlaced++
 }

@@ -142,6 +142,7 @@ hr {
 
 #result {
     margin: 10px;
+    margin-bottom: 60px;
     font-size: larger;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     color: black;
