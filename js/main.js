@@ -18,9 +18,6 @@ var hintCell
 var hintsUsed
 var isHintFinished
 var currTime
-var bestTime1
-var bestTime2
-var bestTime3
 var currBest
 var lvl
 var safeClicks
@@ -63,11 +60,7 @@ function onInit(level = {
         previousBtn.style.backgroundColor = 'red'
         previousBtn.style.fontWeight = '900'
     }
-    // if (localStorage.getItem("BestTime")) {
     bestScore()
-    // bestTime = localStorage.getItem("BestTime")
-    // document.getElementById("result").innerHTML = `Record Time is: ${bestTime}s`
-    // }
     smiley = document.querySelector('.restart-btn')
     smiley.innerHTML = '<img src="img/pngwing.com.png"></img>'
     elClicks = document.querySelector('.clicks')
@@ -200,8 +193,11 @@ function gameOver(isVictory) {
     gGame.isOn = false
     if (isVictory) {
         smiley.innerHTML = '<img src="img/pngwing.com (1).png"></img>'
+        // console.log('currTime :>> ', currTime);
         if (!currBest || currTime < parseFloat(currBest)) {
+            // console.log(`.BestTime${lvl}`);
             localStorage.setItem(`.BestTime${lvl}`, currTime);
+            // console.log('localStorage.getItem(BestTime1) :>> ', localStorage.getItem(`.BestTime${lvl}`));
         }
     } else {
         smiley.innerHTML = '<img src="img/kindpng_57353.png"></img>'
@@ -357,24 +353,19 @@ function updateHints() {
 function bestScore() {
     switch (gLevel.SIZE) {
         case 4:
-            bestTime1 = localStorage.getItem('BestTime1')
-            currBest = bestTime1
+            currBest = localStorage.getItem('.BestTime1')
             lvl = 1
             break
         case 8:
-            bestTime2 = localStorage.getItem('.BestTime2')
-            currBest = bestTime2
+            currBest = localStorage.getItem('.BestTime2')
             lvl = 2
             break
         case 12:
-            bestTime3 = localStorage.getItem('.BestTime3')
-            currBest = bestTime3
+            currBest = localStorage.getItem('.BestTime3')
             lvl = 3
     }
     document.querySelector('#result').innerHTML = `Record Time is: ${currBest}s`
-    console.log('currBest :>> ', currBest);
-    console.log(`BestTime${lvl}`);
-
+    // console.log('currBest :>> ', currBest);
 }
 
 function safeClick(elBtn) {
