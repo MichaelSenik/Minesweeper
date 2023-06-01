@@ -5,54 +5,119 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Sprint!</title>
+    <script src="https://kit.fontawesome.com/62f112fa10.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Meme Generator</title>
 </head>
-<body onload="onInit()">
-    <h1>Mine Sweeper!</h1>
-    <button class="dark-light" onclick="toggleDarkLight(this)">🌞</button>
-    <div class="levels">
-        <button id="beginner" onclick="onLevels(this)">Beginner</button>
-        <button id="medium" onclick="onLevels(this)">Medium</button>
-        <button id="expert" onclick="onLevels(this)">Expert</button>
-    </div>
-    <button class="manual" onclick="onManual(this)">Manual Mode</button>
-    <div class="hints">
-        <button id="1" onclick="onHints(this)">💡</button>
-        <button id="2" onclick="onHints(this)">💡</button>
-        <button id="3" onclick="onHints(this)">💡</button>
-    </div>
-    <div class="game">
-        <div class="upper">
-            <hr>
-            <div class="lives"></div>
-            <hr>
-        </div>
-        <hr>
-        <table class="middle">
-            <tr>
-                <td>
-                    <div class="clicks"></div>
-                </td>
-                <td>
-                    <button class="restart-btn" onclick="onRestart(this)"></button>
-                </td>
-                <td>
-                    <div class="timer"></div>
-                </td>
-            </tr>
-        </table>
-        <hr>
-        <div class="board-container"></div>
-    </div>
-    <button class="safeClick" onclick="safeClick(this)"><span></span> Safe-Clicks Left</button>
-    <button class="megaHint" onclick="onMegaHint(this)"></button>
-    <div id="result"></div>
-    <footer>
-        <p>Michael Senik</p>
+
+<body class="main-layout" onload="onInitGallery()">
+
+    <div class="main-screen menu-background" onclick="toggleMenu()"></div>
+
+    <header class="header main-layout full">
+        <div class="logo"></div>
+        <ul class="main-nav flex clean-list">
+            <li><a class="gallery-link" href="#" onclick="onInitGallery()">Gallery</a></li>
+            <li><a class="memes-link" href="#" onclick="onInitSavedMemes()">Memes</a></li>
+            <li><a class="about-link" href="#" onclick="onInitAbout()">About</a></li>
+        </ul>
+        <button class="hamburger" onclick="toggleMenu()"><i class="fa-sharp fa-solid fa-bars"></i></button>
+    </header>
+
+    <section class="keywords main-layout full">
+        <!-- <label for="gallery-search">Search Gallery: </label> -->
+        <input list="keywords-list" id="gallery-search" name="gallery-search" onchange="renderGallery()" placeholder="Enter search keyword">
+        <datalist id="keywords-list">
+            <option>funny</option>
+            <option>cat</option>
+            <option>dog</option>
+            <option>meme</option>
+            <option>sad</option>
+        </datalist>
+        <section class="keywords-list">
+            <!-- add spans and adjust size -->
+            
+        </section>
+    </section>
+
+    <section class="img-gallery"></section>
+
+    <section class="meme-container display-none">
+
+        <section class="canvas-container">
+            <canvas class="meme-canvas"></canvas>
+        </section>
+
+        
+        <section class="meme-toolbox">
+            <input type="text" name="lineText" id="lineText" placeholder="Add text here" oninput="onSetLineText(this)">
+
+            <div class="btns-group1">
+                <button class="btn btn-add" onclick="onAddLine()"></button>
+                <button class="btn btn-updown" onclick="onSwitchLine()"></button>
+                <button class="btn btn-delete" onclick="onDeleteLine()"></button>
+            </div>
+
+            <div class="btns-group2">
+                <button class="btn btn-font-inc" onclick="onSetFontSize(2)"></button>
+                <button class="btn btn-font-dec" onclick="onSetFontSize(-2)"></button>
+                <button class="btn btn-align-left" onclick="onSetAlign('start')"></button>
+                <button class="btn btn-align-mid" onclick="onSetAlign('center')"></button>
+                <button class="btn btn-align-right" onclick="onSetAlign('end')"></button>
+            </div>
+
+            <div class="btns-group3">
+                <select class="select-font" value="Impact" onchange="onSetFont(this.value)">
+                    <option value="Impact">Impact</option>
+                    <option value="Arial">Arial</option>
+                </select>
+                
+                <button class="btn btn-clr-stroke"><input class="clr-stroke" type="color" oninput="onSetColor(this.value)"></button>
+                <button class="btn btn-clr-fill"><input class="clr-fill" type="color" oninput="onSetFill(this.value)"></button>
+            </div>
+
+            <div class="emoji-container flex space-between">
+                <button class="btn btn-prev" onclick="onPrevEmoji()"><i class="fa-sharp fa-solid fa-arrow-left"></i></button>
+                <div class="emoji-display"></div>
+                <button class="btn btn-next" onclick="onNextEmoji()"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+
+            <div class="btns-group4">
+                <button class="btn btn-share" onclick="onShareMeme()">Share</button>
+                <a class="btn-download" href="#" onclick="downloadCanvas(this)">Download</a>
+                <button class="btn btn-save" onclick="onSaveMeme()">Save</button>
+            </div>
+
+        </section>
+
+        
+    </section>
+
+    <!-- deal with these later on -->
+    <section class="saved-memes display-none"></section>
+    <section class="about display-none main-layout full">
+        <section class="about-container">
+            
+        </section>
+    </section>
+
+    <footer class="footer flex column full align-center">
+        <div class="logo"></div>
+        <span>Made By Shaul Rosenberg</span>
     </footer>
-    <script src="js/utils.js"></script>
-    <script src="js/main.js"></script>
+
+
+
+
+    <script src="js/services/util.service.js"></script>
+    <script src="js/services/storage.service.js"></script>
+    <script src="js/services/meme.service.js"></script>
+    <script src="js/services/gallery.service.js"></script>
+    <script src="js/services/save.service.js"></script>
+    <script src="js/gallery.controller.js"></script>
+    <script src="js/meme.controller.js"></script>
+    <script src="js/saved.controller.js"></script>
+    
 </body>
 
 </html>

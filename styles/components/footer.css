@@ -1,0 +1,10 @@
+
+
+.footer {
+    background-color: var(--clr-brand);
+    padding-block: 3em;
+}
+
+.footer span {
+    color: white;
+}
